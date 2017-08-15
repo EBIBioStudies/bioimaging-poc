@@ -1,0 +1,21 @@
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+def dslPath = "querydsl"
+
+querydsl.querydslSourcesDir = dslPath
+querydsl.jpa = true
+
+sourceSets.main {
+    java {
+        srcDir "$projectDir/$dslPath"
+    }
+}
+
+initQuerydslSourcesDir.doLast {
+    file(new File(projectDir, "/src/$dslPath")).deleteDir()
+}
+
+dependencies {
+    compile 'com.querydsl:querydsl-jpa:4.1.4'
+    compileOnly 'com.querydsl:querydsl-apt:4.1.4'
+}
