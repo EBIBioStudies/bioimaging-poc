@@ -4,7 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import uk.ac.ebi.biostd.persistence.common.filtering.Filter;
 
+/**
+ * Rest api order expression representation class.
+ *
+ */
 @Getter
 @AllArgsConstructor
 public class Order {
@@ -14,6 +19,13 @@ public class Order {
     private final String property;
     private final OrderDirection direction;
 
+    /**
+     * Obtains an instance of {@link Order} based on the given expression.
+     *
+     * @param orderExpression the string order expression.
+     * @throws IllegalArgumentException if filter expression is not correct
+     * @return an instance of {@link Order} based on given order expression.
+     */
     public static Order getOrder(String orderExpression) {
         Matcher matcher = PATTERN.matcher(orderExpression);
         if (matcher.find()) {

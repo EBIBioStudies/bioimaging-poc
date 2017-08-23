@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Represent a data-grid column.
+ * Represent a file data-grid column.
  */
 @Data
 @AllArgsConstructor

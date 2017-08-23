@@ -5,14 +5,16 @@ import { FilesPagingResponse } from './files-paging-response';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { FileProperty } from './file-meta-response';
+import { FileColumnDef } from "../components/files-grid-component/file-column-def";
+import "rxjs/add/operator/mergeMap";
 
 /**
  * Helps to obtain file information for a given submission.
  */
 @Injectable()
 export class FileService {
-    private static readonly BASE_URL: string = 'http://localhost:9876/submissions/586283/files?';
-    private static readonly META_URL: string = 'http://localhost:9876/submissions/586283/meta';
+    private static readonly BASE_URL: string = 'http://localhost:9876/submissions/submissionId/files?';
+    private static readonly META_URL: string = 'http://localhost:9876/submissions/submissionId/meta';
 
     constructor(private http: Http) {
     }
@@ -23,11 +25,11 @@ export class FileService {
      * @param {IGetRowsParams} params query params as start row and end row.
      * @returns {Observable<FilesPagingResponse>} an observable object so user can subscribe to changes.
      */
-    getFiles(params: IGetRowsParams): Observable<FilesPagingResponse> {
+    getFiles(submissionId: string, params: IGetRowsParams): Observable<FilesPagingResponse> {
         const pageSize: number = params.endRow - params.startRow;
         const page: number = (pageSize / 100) - 1;
 
-        let requestUrl = `${FileService.BASE_URL}page=${page}&size=${pageSize}`;
+        let requestUrl = `${FileService.BASE_URL.replace('submissionId', submissionId)}page=${page}&size=${pageSize}`;
 
         if (params.sortModel.length > 0) {
             requestUrl = `${requestUrl}&orderBy=${params.sortModel[0].colId}_${params.sortModel[0].sort}`;
@@ -48,8 +50,10 @@ export class FileService {
         return this.http.get(requestUrl).map(res => res.json());
     }
 
-    getMetadata(): Observable<FileProperty[]> {
-        return this.http.get(FileService.META_URL).map(res => res.json());
+    getMetadata(submissionId: string): Observable<FileProperty[]> {
+        const url: string = FileService.META_URL.replace('submissionId', submissionId);
+        const data: Observable<FileProperty[]> = this.http.get(url).map(res => res.json());
+        return data;
     }
 
 }

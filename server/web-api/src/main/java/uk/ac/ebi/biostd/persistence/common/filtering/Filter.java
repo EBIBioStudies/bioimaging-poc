@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Filter {
 
     private static final Pattern PATTERN = Pattern.compile("(.*)(equals|contains)(.*)$");
@@ -17,6 +17,13 @@ public class Filter {
     private final String value;
     private final FilterOperation operation;
 
+    /**
+     * Obtains an instance of {@link Filter} based on the given expression.
+     *
+     * @param filterExpression the string filter expression.
+     * @throws IllegalArgumentException if filter expression is not correct
+     * @return an instance of {@link Filter} based on given filter expression.
+     */
     public static Filter getFilter(String filterExpression) {
         Matcher matcher = PATTERN.matcher(filterExpression);
         if (matcher.find()) {

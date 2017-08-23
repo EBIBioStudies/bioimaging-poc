@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 
 /**
+ * Represent an api filter operation.
  *
  */
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public enum FilterOperation {
 
     static {
         FILTER_OPERATION_MAP = Stream.of(FilterOperation.values())
-                .collect(Collectors.toMap(f -> f.symbol, f -> f));
+                .collect(Collectors.toMap(filter -> filter.symbol, filter -> filter));
     }
 
     public static FilterOperation getFromString(String value) {

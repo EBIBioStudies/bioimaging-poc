@@ -10,7 +10,7 @@ import uk.ac.ebi.biostd.persistence.paging.DataPage;
 import uk.ac.ebi.biostd.persistence.paging.PagingInformation;
 
 /**
- * Custom repository implementation helps
+ * Custom repository implementation, contains generic paging implementation.
  */
 @NoRepositoryBean
 public interface CustomRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {

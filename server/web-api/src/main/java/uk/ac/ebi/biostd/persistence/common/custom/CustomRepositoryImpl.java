@@ -33,7 +33,6 @@ public class CustomRepositoryImpl<T, ID extends Serializable> extends SimpleJpaR
         long total = countQuery.fetchOne();
         int totalPages = Math.toIntExact(total / pageSize);
         List<T> elements = query.offset(pageNumber * pageSize).limit(pageSize).fetch();
-
         listConsumer.accept(elements.stream());
         return new DataPage<>(total, pageNumber, pageSize, totalPages, elements);
     }
