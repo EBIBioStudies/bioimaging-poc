@@ -1,7 +1,9 @@
-package uk.ac.ebi.biostd.services.meta;
+package uk.ac.ebi.biostd.services.files.meta;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static uk.ac.ebi.biostd.model.data.PropertyType.ATTRIBUTE;
+import static uk.ac.ebi.biostd.model.data.PropertyType.FILE;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import uk.ac.ebi.biostd.model.data.FileProperty;
 import uk.ac.ebi.biostd.model.data.PropertyType;
 import uk.ac.ebi.biostd.model.domain.FileAttribute;
 import uk.ac.ebi.biostd.persistence.repositories.FileAttributeRepository;
+
 
 @Service
 @AllArgsConstructor
@@ -32,12 +35,13 @@ public class MetadataService {
     @Cacheable("sub_properties")
     public List<FileProperty> getProperties(long submissionId) {
         List<FileAttribute> attributes = attributeRepository.findByFileSectionSubmissionIdAndGroupByName(submissionId);
-        List<FileProperty> fileProperties = attributes.stream().map(attr ->
-                new FileProperty(getId(attr.getName()), attr.getName(), PropertyType.ATTRIBUTE, true)).collect(toList());
+        List<FileProperty> fileProperties = attributes.stream().map(
+                attr -> new FileProperty(getId(attr.getName()), attr.getName(), ATTRIBUTE, true))
+                .collect(toList());
 
-        fileProperties.add(0, new FileProperty("name", "Name", PropertyType.FILE, true));
-        fileProperties.add(1, new FileProperty("size", "Size", PropertyType.FILE, false));
-        fileProperties.add(2, new FileProperty("order", "Order", PropertyType.FILE, false));
+        fileProperties.add(0, new FileProperty("name", "Name", FILE, true));
+        fileProperties.add(1, new FileProperty("size", "Size", FILE, false));
+        fileProperties.add(2, new FileProperty("order", "Order", FILE, false));
         return fileProperties;
     }
 

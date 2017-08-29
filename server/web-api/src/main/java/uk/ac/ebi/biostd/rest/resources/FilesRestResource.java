@@ -18,7 +18,7 @@ import uk.ac.ebi.biostd.persistence.paging.PagingInformation;
 import uk.ac.ebi.biostd.rest.dto.FilePagingResponse;
 import uk.ac.ebi.biostd.rest.mappers.FileMapper;
 import uk.ac.ebi.biostd.services.files.FileService;
-import uk.ac.ebi.biostd.services.meta.MetadataService;
+import uk.ac.ebi.biostd.services.files.meta.MetadataService;
 
 
 /**

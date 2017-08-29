@@ -14,10 +14,10 @@ Spring-boot application contained rest services to support submission file pagin
 Import project as an standard gradle project.
 
 ## Useful commands.
-| Command           | Description                         | Path           |
-|-------------------|-------------------------------------|----------------|
-| ./gradlew build   | build project and execute unit test | root path      |
-| ./gradlew bootRun | run application                     | web-api folder |
+| Command                     | Description                         | Path           |
+|-----------------------------|-------------------------------------|----------------|
+| ./gradlew build             | build project and execute unit test | root path      |
+| ./gradlew :web-api:bootRun  | run application                     | web-api folder |
 
 
 

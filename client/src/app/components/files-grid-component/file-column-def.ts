@@ -1,5 +1,8 @@
 import { ColDef } from 'ag-grid';
 
+/**
+ * Custom column implementation with default filtering options.
+ */
 export class FileColumnDef implements ColDef {
     headerName?: string;
     field?: string;

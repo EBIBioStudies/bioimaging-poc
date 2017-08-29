@@ -1,11 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { AppComponent } from './app.component';
-import { HttpModule } from '@angular/http';
 import { FileGridComponent } from './components/files-grid-component/file-grid-component.component';
 import { FileService } from './services/file-service.service';
-import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
     {path: 'submissions/:id', component: FileGridComponent},

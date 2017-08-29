@@ -25,7 +25,7 @@ import uk.ac.ebi.biostd.persistence.file.filter.PredicateUtil;
 import uk.ac.ebi.biostd.persistence.file.order.AttributeOrder;
 import uk.ac.ebi.biostd.persistence.file.order.FileOrder;
 import uk.ac.ebi.biostd.persistence.file.order.OrderSpecifierUtil;
-import uk.ac.ebi.biostd.services.meta.QueryMetadata;
+import uk.ac.ebi.biostd.services.files.meta.QueryMetadata;
 
 @Component
 @AllArgsConstructor

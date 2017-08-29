@@ -29,9 +29,8 @@ public class FileMapper {
 
     private FileDTO getFileDTO(File file, Map<String, FileProperty> metadata) {
         List<AttributeValueDTO> attributeValueDTOList =
-                file.getAttributes().stream()
-                        .map(attribute -> new AttributeValueDTO(metadata.get(attribute.getName()).getId(),
-                                attribute.getValue()))
+                file.getAttributes().stream().map(attribute ->
+                        new AttributeValueDTO(metadata.get(attribute.getName()).getId(), attribute.getValue()))
                         .collect(Collectors.toList());
 
         return FileDTO.builder()

@@ -7,7 +7,7 @@ import uk.ac.ebi.biostd.persistence.file.filter.AttributeFilter;
 import uk.ac.ebi.biostd.persistence.file.filter.FileFilter;
 import uk.ac.ebi.biostd.persistence.file.order.AttributeOrder;
 import uk.ac.ebi.biostd.persistence.file.order.FileOrder;
-import uk.ac.ebi.biostd.services.meta.QueryMetadata;
+import uk.ac.ebi.biostd.services.files.meta.QueryMetadata;
 
 @Builder
 @Getter
