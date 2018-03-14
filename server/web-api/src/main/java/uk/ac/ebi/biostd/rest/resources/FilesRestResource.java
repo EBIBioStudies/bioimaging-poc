@@ -35,25 +35,25 @@ public class FilesRestResource {
     private final MetadataService metadataService;
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("submissions/{submissionId}/files")
+    @GetMapping("submissions/{accNo}/files")
     public FilePagingResponse getFiles(
-            @PathVariable("submissionId") long submissionId,
+            @PathVariable("accNo") String accNo,
             @RequestParam(name = "page", required = false) int page,
             @RequestParam(name = "size", required = false) int size,
             @RequestParam(name = "filterBy", required = false) Optional<String> filterBy,
             @RequestParam(name = "orderBy", required = false) Optional<String> orderBy) {
 
         DataPage<File> filePage = fileService
-                .getFilePage(submissionId, new PagingInformation(page, size), filterBy, orderBy);
-        Map<String, FileProperty> metadata = metadataService.getPropertiesMap(submissionId);
+                .getFilePage(accNo, new PagingInformation(page, size), filterBy, orderBy);
+        Map<String, FileProperty> metadata = metadataService.getPropertiesMap(accNo);
 
         return fileMapper.getFilePagingResponse(filePage, metadata);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("submissions/{submissionId}/meta")
-    public List<FileProperty> getSubmissionMetadata(@PathVariable("submissionId") long submissionId) {
-        return metadataService.getProperties(submissionId)
+    @GetMapping("submissions/{accNo}/meta")
+    public List<FileProperty> getSubmissionMetadata(@PathVariable("accNo") String accNo) {
+        return metadataService.getProperties(accNo)
                 .stream().filter(FileProperty::isVisible).collect(Collectors.toList());
     }
 }

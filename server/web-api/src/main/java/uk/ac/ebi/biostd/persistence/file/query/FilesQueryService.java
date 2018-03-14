@@ -13,10 +13,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import uk.ac.ebi.biostd.model.domain.File;
-import uk.ac.ebi.biostd.model.domain.QFile;
-import uk.ac.ebi.biostd.model.domain.QFileAttribute;
-import uk.ac.ebi.biostd.model.domain.QSection;
+import uk.ac.ebi.biostd.model.domain.*;
 import uk.ac.ebi.biostd.persistence.common.filtering.Filter;
 import uk.ac.ebi.biostd.persistence.common.ordering.Order;
 import uk.ac.ebi.biostd.persistence.file.filter.AttributeFilter;
@@ -33,14 +30,16 @@ public class FilesQueryService {
 
     private final static QFile Q_FILE = QFile.file;
     private final static QSection Q_SECTION = QSection.section;
+    private final static QFileAttView Q_FILEATTVIEW = QFileAttView.fileAttView;
+
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public JPAQuery<File> getFilesQuery(long submissionId, QueryOperations operations) {
+    public JPAQuery<File> getFilesQuery(String accNo, QueryOperations operations) {
         return jpaQueryFactory.select(Q_FILE)
                 .from(getEntityPaths(operations.getAttrFilters(), operations.getAttrOrders()))
                 .where(getWherePredicates(
-                        submissionId,
+                        accNo,
                         operations.getAttrFilters(),
                         operations.getAttrOrders(),
                         operations.getFileFilters(),
@@ -48,11 +47,11 @@ public class FilesQueryService {
                 .orderBy(OrderSpecifierUtil.getOrderSpecification(operations));
     }
 
-    public JPAQuery<Long> getCountQuery(long submissionId, QueryOperations operations) {
+    public JPAQuery<Long> getCountQuery(String accNo, QueryOperations operations) {
         return jpaQueryFactory.select(Q_FILE.count())
                 .from(getEntityPaths(operations.getAttrFilters(), emptyList()))
                 .where(getWherePredicates(
-                        submissionId,
+                        accNo,
                         operations.getAttrFilters(),
                         emptyList(),
                         operations.getFileFilters(),
@@ -67,12 +66,12 @@ public class FilesQueryService {
         return entityPaths.toArray(new EntityPath[entityPaths.size()]);
     }
 
-    private Predicate[] getWherePredicates(long submissionId, List<AttributeFilter> filters,
+    private Predicate[] getWherePredicates(String accNo, List<AttributeFilter> filters,
             List<AttributeOrder> orders, List<FileFilter> fileFilters, QueryMetadata queryMetadata) {
 
         List<Predicate> wherePredicates = Lists.newArrayList();
         wherePredicates.add(Q_SECTION.id.eq(Q_FILE.sectionId));
-        wherePredicates.add(Q_SECTION.submissionId.eq(submissionId));
+        wherePredicates.add(Q_FILEATTVIEW.accNo.eq(accNo));
 
         filters.forEach(attrFilter -> {
             QFileAttribute attr = attrFilter.getFileAttribute();

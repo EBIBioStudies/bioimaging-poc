@@ -36,7 +36,7 @@ public class FileService {
     private final FilesQueryService filesQueryService;
 
     public DataPage<File> getFilePage(
-            long submissionId,
+            String accNo,
             PagingInformation pagingInformation,
             Optional<String> filters,
             Optional<String> orders) {
@@ -45,11 +45,11 @@ public class FileService {
         List<Order> orderList = getOrder(orders);
 
         QueryOperations queryOperations = filesQueryService
-                .getQueryOperations(metadataService.getMetadata(submissionId), filterList, orderList);
+                .getQueryOperations(metadataService.getMetadata(accNo), filterList, orderList);
 
         return filesRepository.executePagedQuery(
-                filesQueryService.getFilesQuery(submissionId, queryOperations),
-                filesQueryService.getCountQuery(submissionId, queryOperations),
+                filesQueryService.getFilesQuery(accNo, queryOperations),
+                filesQueryService.getCountQuery(accNo, queryOperations),
                 pagingInformation,
                 files -> attributeRepository.findByFileIdIn(files.map(File::getId).collect(toList())));
     }

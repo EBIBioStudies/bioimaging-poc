@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.biostd.model.data.FileProperty;
 import uk.ac.ebi.biostd.model.data.PropertyType;
+import uk.ac.ebi.biostd.model.domain.FileAttView;
 import uk.ac.ebi.biostd.model.domain.FileAttribute;
 import uk.ac.ebi.biostd.persistence.repositories.FileAttributeRepository;
 
@@ -23,8 +24,8 @@ public class MetadataService {
     private final FileAttributeRepository attributeRepository;
 
     @Cacheable("sub_metadata")
-    public QueryMetadata getMetadata(long submissionId) {
-        List<FileProperty> properties = getProperties(submissionId);
+    public QueryMetadata getMetadata(String accNo) {
+        List<FileProperty> properties = getProperties(accNo);
 
         Map<String, PropertyType> typeMap = properties.stream()
                 .collect(toMap(FileProperty::getId, FileProperty::getType));
@@ -33,8 +34,8 @@ public class MetadataService {
     }
 
     @Cacheable("sub_properties")
-    public List<FileProperty> getProperties(long submissionId) {
-        List<FileAttribute> attributes = attributeRepository.findByFileSectionSubmissionIdAndGroupByName(submissionId);
+    public List<FileProperty> getProperties(String accNo) {
+        List<FileAttView> attributes = attributeRepository.findByFileSectionSubmissionIdAndGroupByName(accNo);
         List<FileProperty> fileProperties = attributes.stream().map(
                 attr -> new FileProperty(getId(attr.getName()), attr.getName(), ATTRIBUTE, true))
                 .collect(toList());
@@ -45,8 +46,8 @@ public class MetadataService {
         return fileProperties;
     }
 
-    public Map<String, FileProperty> getPropertiesMap(long submissionId) {
-        return getProperties(submissionId).stream().collect(toMap(f -> f.getName(), f -> f));
+    public Map<String, FileProperty> getPropertiesMap(String accNo) {
+        return getProperties(accNo).stream().collect(toMap(f -> f.getName(), f -> f));
     }
 
     private String getId(String attributeName) {
