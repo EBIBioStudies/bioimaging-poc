@@ -28,4 +28,5 @@ public interface FileAttributeRepository extends CustomRepository<FileAttribute,
      */
     List<FileAttribute> findByFileIdIn(List<Long> ids);
 
+
 }

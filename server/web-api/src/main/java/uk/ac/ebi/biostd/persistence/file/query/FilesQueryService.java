@@ -32,11 +32,10 @@ public class FilesQueryService {
     private final static QSection Q_SECTION = QSection.section;
     private final static QFileAttView Q_FILEATTVIEW = QFileAttView.fileAttView;
 
-
     private final JPAQueryFactory jpaQueryFactory;
 
-    public JPAQuery<File> getFilesQuery(String accNo, QueryOperations operations) {
-        return jpaQueryFactory.select(Q_FILE)
+    public JPAQuery<FileAttView> getFilesQuery(String accNo, QueryOperations operations) {
+        return jpaQueryFactory.select(Q_FILEATTVIEW)
                 .from(getEntityPaths(operations.getAttrFilters(), operations.getAttrOrders()))
                 .where(getWherePredicates(
                         accNo,
@@ -48,7 +47,7 @@ public class FilesQueryService {
     }
 
     public JPAQuery<Long> getCountQuery(String accNo, QueryOperations operations) {
-        return jpaQueryFactory.select(Q_FILE.count())
+        return jpaQueryFactory.select(Q_FILEATTVIEW.count())
                 .from(getEntityPaths(operations.getAttrFilters(), emptyList()))
                 .where(getWherePredicates(
                         accNo,
@@ -59,7 +58,7 @@ public class FilesQueryService {
     }
 
     private EntityPath[] getEntityPaths(List<AttributeFilter> filters, List<AttributeOrder> orders) {
-        List<EntityPath> entityPaths = Lists.newArrayList(Q_FILE, Q_SECTION);
+        List<EntityPath> entityPaths = Lists.newArrayList(Q_FILEATTVIEW);
         filters.forEach(filter -> entityPaths.add(filter.getFileAttribute()));
         orders.forEach(order -> entityPaths.add(order.getAttribute()));
 
@@ -70,21 +69,20 @@ public class FilesQueryService {
             List<AttributeOrder> orders, List<FileFilter> fileFilters, QueryMetadata queryMetadata) {
 
         List<Predicate> wherePredicates = Lists.newArrayList();
-        wherePredicates.add(Q_SECTION.id.eq(Q_FILE.sectionId));
         wherePredicates.add(Q_FILEATTVIEW.accNo.eq(accNo));
 
         filters.forEach(attrFilter -> {
             QFileAttribute attr = attrFilter.getFileAttribute();
             Filter filter = attrFilter.getFilter();
 
-            wherePredicates.add(attr.file_id.eq(Q_FILE.id));
+            wherePredicates.add(attr.file_id.eq(Q_FILEATTVIEW.id));
             wherePredicates.add(attr.name.eq(queryMetadata.getName(filter.getProperty())));
             wherePredicates.add(PredicateUtil.getFilterExpression(filter, attr.value));
         });
 
         orders.forEach(order -> {
             QFileAttribute fileAttr = order.getAttribute();
-            wherePredicates.add(fileAttr.file_id.eq(Q_FILE.id));
+            wherePredicates.add(fileAttr.file_id.eq(Q_FILEATTVIEW.id));
             wherePredicates.add(fileAttr.name.eq(queryMetadata.getName(order.getOrder().getProperty())));
         });
 

@@ -28,6 +28,8 @@ public class QSection extends EntityPathBase<Section> {
 
     public final NumberPath<Long> submissionId = createNumber("submissionId", Long.class);
 
+    public final StringPath type = createString("type");
+
     public QSection(String variable) {
         this(Section.class, forVariable(variable), INITS);
     }

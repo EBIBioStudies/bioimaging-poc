@@ -11,6 +11,7 @@ import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.biostd.model.domain.File;
+import uk.ac.ebi.biostd.model.domain.FileAttView;
 import uk.ac.ebi.biostd.persistence.common.filtering.Filter;
 import uk.ac.ebi.biostd.persistence.common.ordering.Order;
 import uk.ac.ebi.biostd.persistence.common.ordering.OrderDirection;
@@ -35,7 +36,7 @@ public class FileService {
     private final MetadataService metadataService;
     private final FilesQueryService filesQueryService;
 
-    public DataPage<File> getFilePage(
+    public DataPage<FileAttView> getFilePage(
             String accNo,
             PagingInformation pagingInformation,
             Optional<String> filters,
@@ -51,7 +52,7 @@ public class FileService {
                 filesQueryService.getFilesQuery(accNo, queryOperations),
                 filesQueryService.getCountQuery(accNo, queryOperations),
                 pagingInformation,
-                files -> attributeRepository.findByFileIdIn(files.map(File::getId).collect(toList())));
+                files -> attributeRepository.findByFileIdIn(files.map(FileAttView::getId).collect(toList())));
     }
 
     private List<Order> getOrder(Optional<String> orders) {
@@ -64,5 +65,9 @@ public class FileService {
 
     private <T> Optional<List<T>> getOperationsList(Optional<String> operations, Function<String, T> function) {
         return operations.map(value -> stream(value.split(SEPARATOR)).map(function::apply).collect(toList()));
+    }
+
+    private List<File> getAllFiles(){
+        return  filesRepository.findFilesByAccNo("");
     }
 }

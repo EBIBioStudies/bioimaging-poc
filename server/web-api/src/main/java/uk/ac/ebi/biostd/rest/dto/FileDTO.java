@@ -16,6 +16,8 @@ public class FileDTO {
     private final int size;
     private final String path;
     private final long sectionId;
+    private final String type;
+    private final String columnKey;
 
     private final List<AttributeValueDTO> attributes;
 }

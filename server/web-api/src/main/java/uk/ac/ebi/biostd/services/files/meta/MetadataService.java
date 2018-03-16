@@ -43,6 +43,8 @@ public class MetadataService {
         fileProperties.add(0, new FileProperty("name", "Name", FILE, true));
         fileProperties.add(1, new FileProperty("size", "Size", FILE, false));
         fileProperties.add(2, new FileProperty("order", "Order", FILE, false));
+        fileProperties.add(3, new FileProperty("type", "Type", FILE, false));
+
         return fileProperties;
     }
 
