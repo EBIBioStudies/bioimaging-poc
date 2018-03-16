@@ -20,8 +20,6 @@ public class QSubmission extends EntityPathBase<Submission> {
 
     public static final QSubmission submission = new QSubmission("submission");
 
-    public final StringPath accNo = createString("accNo");
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath path = createString("path");

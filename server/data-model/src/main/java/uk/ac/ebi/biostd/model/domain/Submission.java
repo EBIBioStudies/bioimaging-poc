@@ -28,7 +28,4 @@ public class Submission {
 
     @Column(name = "relPath")
     private String path;
-
-    @Column(updatable = false, insertable = false)
-    private String accNo;
 }

@@ -6,7 +6,6 @@ import com.querydsl.core.types.dsl.ComparableExpressionBase;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import uk.ac.ebi.biostd.model.domain.QFile;
-import uk.ac.ebi.biostd.model.domain.QFileAttView;
 import uk.ac.ebi.biostd.model.domain.QFileAttribute;
 import uk.ac.ebi.biostd.persistence.common.ordering.Order;
 import uk.ac.ebi.biostd.persistence.common.ordering.OrderDirection;
@@ -33,13 +32,13 @@ public class OrderSpecifierUtil {
 
         switch (order.getProperty()) {
             case "name":
-                filePath = QFileAttView.fileAttView.name;
+                filePath = QFile.file.name;
                 break;
             case "size":
-                filePath = QFileAttView.fileAttView.name;
+                filePath = QFile.file.size;
                 break;
             case "order":
-                filePath = QFileAttView.fileAttView.name;
+                filePath = QFile.file.order;
         }
 
         return order.getDirection() == OrderDirection.DESC ? filePath.desc() : filePath.asc();
